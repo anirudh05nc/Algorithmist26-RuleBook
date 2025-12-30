@@ -1,37 +1,60 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const algorithmsContainer = document.getElementById("algorithms-container");
+    // --- Intro Sequence ---
+    const introContainer = document.getElementById("intro-container");
 
-    // Add a class to disable hover and transition effects during intro
-    algorithmsContainer.classList.add("disable-hover-transition");
-
-    // Delay the display of the intro
-    setTimeout(function () {
-        document.getElementById("intro-container").style.display = "none";
-        // Remove the class to enable hover and transition after intro
-        algorithmsContainer.classList.remove("disable-hover-transition");
-    }, 3000); // Display for 2 seconds
-
-    // Delay the display of title and opacity of body
-    setTimeout(function () {
-        document.getElementById("title").style.display = "block";
-        document.body.style.opacity = 1;
-    }, 2000);
-
-    algorithms.forEach(function (algorithm, index) {
-        // Create a div element for each algorithm
-        const algorithmDiv = document.createElement("div");
-        algorithmDiv.className = "algorithm";
-        algorithmDiv.textContent = algorithm;
-
-        // Add a class to trigger the CSS transition
-        algorithmDiv.classList.add("fade-in");
-
-        // Append the algorithm div to the container
-        algorithmsContainer.appendChild(algorithmDiv);
-
-        // Use a timeout to delay the appearance of each algorithm
-        setTimeout(function () {
-            algorithmDiv.style.opacity = 1;
-        }, (index + 1) * 3000); // Delay each algorithm by 1 second
+    // Stagger animation for intro text
+    const introLetters = document.querySelectorAll("#intro-text span");
+    introLetters.forEach((span, index) => {
+        span.style.animationDelay = `${index * 0.1}s`;
     });
+
+    setTimeout(() => {
+        if (introContainer) {
+            introContainer.style.transition = "opacity 1s ease";
+            introContainer.style.opacity = "0";
+            setTimeout(() => {
+                introContainer.style.display = "none";
+            }, 1000);
+        }
+    }, 2500); // 2.5s delay to let animations finish
+
+
+    // --- Scroll Animations ---
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px"
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = "1";
+                entry.target.style.transform = "translateY(0)";
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    const cards = document.querySelectorAll(".algorithm-container li");
+    cards.forEach((card, index) => {
+        // Set initial state for animation
+        card.style.opacity = "0";
+        card.style.transform = "translateY(50px)";
+        card.style.transition = "opacity 0.6s ease, transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275)";
+
+        observer.observe(card);
+    });
+
+    // --- Interactive Background Glow ---
+    const cursorGlow = document.getElementById('cursor-glow');
+
+    if (cursorGlow) {
+        document.addEventListener('mousemove', (e) => {
+            requestAnimationFrame(() => {
+                // Determine opacity based on having moved (fade in on first move)
+                cursorGlow.style.opacity = '1';
+                cursorGlow.style.transform = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%, -50%)`;
+            });
+        });
+    }
 });

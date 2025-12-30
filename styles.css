@@ -1,351 +1,307 @@
-@media only screen and (min-width: 768px) {
+:root {
+    --bg-color: #050505;
+    --card-bg: rgba(20, 20, 20, 0.6);
+    --card-border: rgba(255, 255, 255, 0.1);
+    --text-primary: #f0f0f0;
+    --text-secondary: #a0a0a0;
+    --accent-color: #00C853;
+    /* Reference Green */
+    --accent-glow: rgba(0, 200, 83, 0.4);
+    --font-main: 'Outfit', sans-serif;
+}
 
-    #background-video {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover; /* Ensures the video covers the entire screen */
-        z-index: -1; /* Set a lower z-index to place it behind other content */
-        opacity: 0.05;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    /* cursor: none;  Removed custom cursor */
+}
+
+body {
+    font-family: var(--font-main);
+    background-color: var(--bg-color);
+    /* Professional Green Depth */
+    background-image:
+        radial-gradient(circle at 20% 30%, rgba(0, 200, 83, 0.06) 0%, transparent 40%),
+        radial-gradient(circle at 80% 10%, rgba(0, 200, 83, 0.04) 0%, transparent 30%),
+        radial-gradient(circle at 50% 80%, rgba(0, 200, 83, 0.03) 0%, transparent 50%),
+        linear-gradient(to bottom, #050505, #080808);
+    background-attachment: fixed;
+    color: var(--text-primary);
+    line-height: 1.6;
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+/* Cursor Glow Effect */
+#cursor-glow {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(0, 200, 83, 0.15) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: -1;
+    filter: blur(80px);
+    /* Soften edges significantly */
+    transform: translate(-50%, -50%);
+    /* Center on coordinates */
+    transition: transform 0.1s ease-out;
+    /* Smooth follow delay */
+    opacity: 0;
+    /* Hidden initially until moved */
+}
+
+/* Header */
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 1.5rem 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(5, 5, 5, 0.8);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--card-border);
+    z-index: 100;
+}
+
+#logo-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+#logo {
+    width: 50px;
+    height: 50px;
+}
+
+#site-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #fff;
+    /* White title for clean look */
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+}
+
+nav ul li a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: color 0.3s;
+}
+
+nav ul li a:hover {
+    color: var(--accent-color);
+}
+
+/* Main Container */
+.algorithm-container {
+    padding-top: 120px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-bottom: 50px;
+}
+
+/* Intro Animation Overlay */
+#intro-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+#college-logo {
+    width: 100px;
+    margin-bottom: 2rem;
+    animation: fadeIn 1s ease-out;
+}
+
+#intro-text {
+    font-size: 3rem;
+    font-weight: 700;
+    display: flex;
+    gap: 5px;
+    overflow: hidden;
+}
+
+#intro-text span {
+    display: inline-block;
+    color: var(--text-primary);
+    transform: translateY(100%);
+    animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+#intro-text #year {
+    color: var(--accent-color);
+}
+
+/* List Styling (Cards) */
+.algorithm-container>ol {
+    list-style: none;
+    display: grid;
+    /* Default to responsiveness */
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 20px;
+}
+
+@media (min-width: 1024px) {
+    .algorithm-container>ol {
+        /* Force 3 columns on desktop as requested */
+        grid-template-columns: repeat(3, 1fr);
     }
-    
-    body {
-        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-        line-height: 1.6;
-        margin: 0 auto;
-        max-width: 800px;
-        padding: 20px;
-        background: #fff;
-        color: #3e3c3c;
+}
+
+/* Card Style - Direct children only to avoid hitting nested lists */
+.algorithm-container>ol>li {
+    background: rgba(15, 15, 15, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 2.5rem 2rem;
+    border-radius: 12px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.algorithm-container>ol>li:hover {
+    transform: translateY(-8px);
+    border-color: var(--accent-color);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 200, 83, 0.1);
+    background: rgba(20, 20, 20, 0.9);
+}
+
+.algorithm-container>ol>li>strong {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--accent-color);
+    margin-bottom: 1.2rem;
+    display: block;
+    letter-spacing: -0.02em;
+}
+
+
+
+/* Links Container */
+.algorithm-container li ul {
+    margin-top: auto;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    list-style: none;
+    display: block;
+    /* Stack links simply */
+}
+
+/* Simple Links */
+.algorithm-container li ul li {
+    background: transparent;
+    border: none;
+    padding: 2px 0;
+    margin: 0;
+    border-radius: 0;
+    box-shadow: none;
+    width: auto;
+    display: block;
+    /* List items one per line */
+}
+
+.algorithm-container li ul li:hover {
+    background: transparent;
+    transform: none;
+}
+
+.algorithm-container a {
+    color: var(--text-secondary);
+    /* Text color again */
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 400;
+    /* Normal weight */
+    display: inline-block;
+    transition: color 0.2s;
+}
+
+.algorithm-container a:hover {
+    color: var(--accent-color);
+    /* Green on hover */
+    text-decoration: underline;
+}
+
+.algorithm-container a::before {
+    content: '→';
+    margin-right: 8px;
+    color: var(--accent-color);
+    opacity: 0.8;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
     }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
     header {
-        box-shadow: 0 0 5px rgba(30, 30, 30, 0.616);
-        background-color: #fff !important;
-        border-radius: 5px;
-        padding: 10px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+        padding: 1rem;
     }
-    
-    #logo-container {
-        display: flex;
-        align-items: center;
-    }
-    
-    #logo {
-        width: 100px;
-        height: 100px;
-        margin-right: 10px;
-    }
-    
+
     #site-title {
-        color: #3e3c3c;
-        font-size: 1.5em;
-        font-weight: bold;
+        font-size: 1.2rem;
     }
-    
-    nav ul {
-        list-style: none;
-        display: flex;
+
+    .algorithm-container ol {
+        grid-template-columns: 1fr;
     }
-    
-    nav ul li {
-        margin-right: 20px;
-    }
-    
-    nav ul li a {
-        text-decoration: none;
-        color: #2F8D46;
-        font-weight: bold;
-        font-size: 1.2em;
-    }
-    
-    
-    #intro-container {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background: #fff; 
-        z-index: 1000;
-    }
-    
-    
-    #college-logo {
-        width: 150px; 
-        height: auto;
-        margin-right: 20px;
-        z-index: 1;
-    }
-    
+
     #intro-text {
-        display: flex;
-        align-items: center;
-    }
-    
-    #a, #l, #g, #o,#r,#i,#t,#h,#m,#i,#s,#t, #space {
-        color: #000000;
-        opacity: 0;
-        animation: slideIn 2s forwards;
+        font-size: 2rem;
     }
 
-    #year{
-        color: #2F8D46;
-        opacity: 0;
-        animation: slideIn 2s forwards;
-    }
-    
-    @keyframes slideIn {
-        0% {
-            transform: translateX(-100%);
-        }
-        100% {
-            transform: translateX(0);
-            opacity: 1;
+    /* Adjust grid for tablets slightly */
+    @media (min-width: 600px) and (max-width: 1023px) {
+        .algorithm-container ol {
+            grid-template-columns: repeat(2, 1fr);
         }
     }
-    
-    header {
-        background-color: #333;
-        color: #fff;
-        padding: 10px;
-    }
-    
-    #algorithms-container {
-        margin-top: 20px;
-        padding: 0px;
-        background-color: #fff;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        transform: translateZ(0);
-        transition: transform 0.5s ease-in-out;
-    }
-    
-    .algorithm-container a {
-        color: #2F8D46; /* Blue color */
-        text-decoration: none;
-        border-bottom: 1px solid transparent;
-        transition: border-bottom 0.3s ease-in-out, color 0.3s ease-in-out;
-    }
-    
-    .algorithm-container a:hover {
-        border-bottom: 2px solid #302e2e;
-        color: #302e2e; /* Slightly darker blue on hover */
-    }
-    
-    .algorithm-container {
-        margin-top: 20px;
-        padding: 15px;
-        background-color: #fff;
-        box-shadow: 0 0 5px rgba(30, 30, 30, 0.616);
-        border-radius: 5px;
-        transition: transform 0.3s ease-in-out;
-    }
-    
-    /* .algorithm-container:hover {
-        transform: scale(1.02);
-    } */
-    
-    .algorithm-container li {
-        margin-bottom: 10px;
-        color: #333;
-    }
-    
-    .algorithm-container li strong {
-        font-weight: bold;
-        color: #2F8D46; /* Dark Cyan */
-    }
-    
-    .algorithm-container li ul {
-        margin-top: 10px;
-    }
-    
-    .algorithm-container li ul li {
-        margin-bottom: 5px;
-    }
-    
-    h1 {
-        text-align: center;
-        position: relative;
-    }
-}    
-  
-  /* Styles for mobile view */
-  @media only screen and (max-width: 767px) {
-    #background-video {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover; /* Ensures the video covers the entire screen */
-        z-index: -1; /* Set a lower z-index to place it behind other content */
-        opacity: 0.1;
-    }
-   
-    body {
-        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-        line-height: 1.6;
-        margin: 0 auto;
-        max-width: 800px;
-        padding: 20px;
-        background: #fff;
-        color: #3e3c3c;
-    }
-
-    header {
-        box-shadow: 0 0 5px rgba(30, 30, 30, 0.616);
-        background-color: #fff !important;
-        border-radius: 5px;
-        padding: 2px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-    
-    #logo-container {
-        display: flex;
-        align-items: center;
-    }
-    
-    #logo {
-        width: 60px;
-        height: 60px;
-        margin-right: 5px;
-    }
-    
-    #site-title {
-        color: #3e3c3c;
-        font-size: 0.9em;
-    }
-    
-    nav ul {
-        list-style: none;
-        display: flex;
-    }
-    
-    
-    nav ul li a {
-        text-decoration: none;
-        color: #2F8D46;
-        font-weight: bold;
-        font-size: 1em;
-    }
-    
-    #intro-container {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background: #fff; 
-        z-index: 1000;
-    }
-    
-    
-    #college-logo {
-        width: 150px; 
-        height: auto;
-        margin-right: 20px;
-        z-index: 1;
-    }
-    
-    #intro-text {
-        display: flex;
-        align-items: center;
-    }
-    
-    #a, #l, #g, #o,#r,#i,#t,#h,#m,#i,#s,#t, #space {
-        color: #000000;
-        opacity: 0;
-        animation: slideIn 2s forwards;
-    }
-
-    #year{
-        color: #2F8D46;
-        opacity: 0;
-        animation: slideIn 2s forwards;
-    }
-    
-    @keyframes slideIn {
-        0% {
-            transform: translateX(-100%);
-        }
-        100% {
-            transform: translateX(0);
-            opacity: 1;
-        }
-    }
-    
-    header {
-        background-color: #333;
-        color: #fff;
-        padding: 10px;
-    }
-    
-    #algorithms-container {
-        margin-top: 20px;
-        padding: 0px;
-        background-color: #fff;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
-        transform: translateZ(0);
-        transition: transform 0.5s ease-in-out;
-    }
-    
-    .algorithm-container a {
-        color: #2F8D46; /* Blue color */
-        text-decoration: none;
-        border-bottom: 1px solid transparent;
-        transition: border-bottom 0.3s ease-in-out, color 0.3s ease-in-out;
-    }
-    
-    .algorithm-container a:hover {
-        border-bottom: 2px solid #302e2e;
-        color: #302e2e; /* Slightly darker blue on hover */
-    }
-    
-    .algorithm-container {
-        margin-top: 20px;
-        padding: 15px;
-        background-color: #fff;
-        box-shadow: 0 0 5px rgba(30, 30, 30, 0.616);
-        border-radius: 5px;
-        transition: transform 0.3s ease-in-out;
-    }
-    
-    /* .algorithm-container:hover {
-        transform: scale(1.02);
-    } */
-    
-    .algorithm-container li {
-        margin-bottom: 10px;
-        color: #333;
-    }
-    
-    .algorithm-container li strong {
-        font-weight: bold;
-        color: #2F8D46; /* Dark Cyan */
-    }
-    
-    .algorithm-container li ul {
-        margin-top: 10px;
-    }
-    
-    .algorithm-container li ul li {
-        margin-bottom: 5px;
-    }
-    
-    h1 {
-        text-align: center;
-        position: relative;
-    }
-  }
+}
